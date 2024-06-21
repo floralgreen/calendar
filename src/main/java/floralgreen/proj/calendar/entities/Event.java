@@ -1,5 +1,7 @@
 package floralgreen.proj.calendar.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import floralgreen.proj.calendar.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 
@@ -15,12 +17,18 @@ public class Event {
     private String eventTitle;
     private OffsetDateTime eventStart;
     private OffsetDateTime eventEnd;
+
     @ManyToOne
     @JoinColumn(name = "calendar_id")
+    @JsonIgnore
     private Calendar calendar;
 
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "record_status_enum")
+    @JsonIgnore
     private RecordStatusEnum recordStatus = RecordStatusEnum.A;
+
 
 
     public Event() {}
