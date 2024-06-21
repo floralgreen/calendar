@@ -1,5 +1,6 @@
 package floralgreen.proj.calendar.entities;
 
+import floralgreen.proj.calendar.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,10 +19,13 @@ public class User {
     private String email;
     @OneToMany(mappedBy = "user")
     private List<Calendar> userCalendars;
+    @Column(name = "record_status_enum")
+    private RecordStatusEnum recordStatus = RecordStatusEnum.A;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(Long id, String username, String password, String firstName, String lastName, String email, List<Calendar> userCalendars) {
+    public User(Long id, String username, String password, String firstName, String lastName, String email, List<Calendar> userCalendars, RecordStatusEnum recordStatus) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -29,6 +33,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.userCalendars = userCalendars;
+        this.recordStatus = recordStatus;
     }
 
     public Long getId() {
@@ -85,5 +90,13 @@ public class User {
 
     public void setUserCalendars(List<Calendar> userCalendars) {
         this.userCalendars = userCalendars;
+    }
+
+    public RecordStatusEnum getRecordStatus() {
+        return recordStatus;
+    }
+
+    public void setRecordStatus(RecordStatusEnum recordStatus) {
+        this.recordStatus = recordStatus;
     }
 }

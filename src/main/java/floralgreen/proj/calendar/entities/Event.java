@@ -1,5 +1,6 @@
 package floralgreen.proj.calendar.entities;
 
+import floralgreen.proj.calendar.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
@@ -18,15 +19,20 @@ public class Event {
     @JoinColumn(name = "calendar_id")
     private Calendar calendar;
 
+    @Column(name = "record_status_enum")
+    private RecordStatusEnum recordStatus = RecordStatusEnum.A;
+
 
     public Event() {}
 
-    public Event(Long id, String eventTitle, OffsetDateTime eventStart, OffsetDateTime eventEnd, Calendar calendar) {
+
+    public Event(Long id, String eventTitle, OffsetDateTime eventStart, OffsetDateTime eventEnd, Calendar calendar, RecordStatusEnum recordStatus) {
         this.id = id;
         this.eventTitle = eventTitle;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.calendar = calendar;
+        this.recordStatus = recordStatus;
     }
 
     public Long getId() {
@@ -67,5 +73,13 @@ public class Event {
 
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
+    }
+
+    public RecordStatusEnum getRecordStatus() {
+        return recordStatus;
+    }
+
+    public void setRecordStatus(RecordStatusEnum recordStatus) {
+        this.recordStatus = recordStatus;
     }
 }
