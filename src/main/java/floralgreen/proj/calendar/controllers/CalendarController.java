@@ -56,6 +56,18 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.findAllActiveCalendar());
     }
 
+    @GetMapping("/allUserCalendars/{id}")
+    @Operation(summary = "Find all user calendars by user ID", description = "Returns a list of all calendars associated with the specified user ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of user calendars retrieved"),
+            @ApiResponse(responseCode = "400", description = "Input no valid")
+    })
+    public ResponseEntity<List<Calendar>> findAllUserCalendars(
+            @Parameter(description = "ID of the user whose calendars are to be obtained.", example = "123")
+            @PathVariable("id") Long id) {
+        return ResponseEntity.ok(calendarService.findAllUserCalendarsByUserId(id));
+    }
+
     @PutMapping("/edit/{id}")
     @Operation(summary = "Update calendar by ID", description = "Updates the calendar with the specified ID.")
     @ApiResponses(value = {

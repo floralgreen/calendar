@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +55,24 @@ public class EventController {
     })
     public ResponseEntity<List<Event>> findAllEvents() {
         return ResponseEntity.ok(eventService.getAllActiveEvents());
+    }
+
+    @GetMapping("/allCalendarEvents/{calendarId}")
+    @Operation(summary = "Find all events for a calendar by ID", description = "Returns a list of all events associated with the specified calendar ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of calendar events retrieved"),
+            @ApiResponse(responseCode = "400", description = "Input not valid")
+    })
+    public ResponseEntity<List<Event>> findAllCalendarEvents(
+            @Parameter(description = "ID of the calendar whose events are to be obtained.", example = "123")
+            @PathVariable Long calendarId){
+        return ResponseEntity.ok(eventService.findAllCalendarEventsByCalendarId(calendarId));
+    }
+
+    @GetMapping("/allDayEvents/{calendardId}")
+    public ResponseEntity<List<Event>> findAllDayEvents(@PathVariable Long calendardId, @RequestParam OffsetDateTime targetDay){
+        List<Event> eventsFound = eventService.findAllDayEventsByCalendarId(calendardId, targetDay);
+        return ResponseEntity.ok(eventsFound);
     }
 
     @PutMapping("/edit/{id}")

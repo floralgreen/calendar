@@ -43,6 +43,17 @@ public class CalendarService {
     }
 
     /**
+     * Retrieves a list of all calendars associated with a specific user.
+     *
+     * @param userId The unique identifier of the user whose calendars are to be retrieved.
+     * @return A list of Calendar objects associated with the specified user.
+     */
+    public List<Calendar> findAllUserCalendarsByUserId(Long userId) {
+        return calendarRepository.findAllUserCalendarsByUserId(userId);
+    }
+
+
+    /**
      * Given a calendarId and an updated calendar Object
      * @param calendarId
      * @param calendarUpdate

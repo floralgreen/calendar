@@ -22,7 +22,7 @@ public class Calendar {
     private User user;
 
     @OneToMany(mappedBy = "calendar")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private List<Event> events;
 
 

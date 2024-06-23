@@ -20,7 +20,7 @@ public class User {
     private String lastName;
     private String email;
     @OneToMany(mappedBy = "user")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private List<Calendar> userCalendars;
 
     @Enumerated(EnumType.STRING)

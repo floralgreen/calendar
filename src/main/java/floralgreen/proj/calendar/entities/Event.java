@@ -20,7 +20,6 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "calendar_id")
-    @JsonIgnore
     private Calendar calendar;
 
 

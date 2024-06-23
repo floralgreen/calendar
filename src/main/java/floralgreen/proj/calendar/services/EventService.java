@@ -6,7 +6,11 @@ import floralgreen.proj.calendar.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,6 +50,23 @@ public class EventService {
         return eventRepository.findAllActiveEvent();
     }
 
+    /**
+     * Retrieves a list of all events associated with a specific calendar.
+     *
+     * @param calendarId The unique identifier of the calendar whose events are to be retrieved.
+     * @return A list of Event objects associated with the specified calendar.
+     */
+    public List<Event> findAllCalendarEventsByCalendarId(Long calendarId) {
+        return eventRepository.findAllCalendarEventsByCalendarId(calendarId);
+    }
+
+    public List<Event> findAllDayEventsByCalendarId(Long calendarId, OffsetDateTime targetDay) {
+        Map<String, OffsetDateTime> checkedDates = checkDay(targetDay);
+        List<Event> eventList = eventRepository.findAllCalendarEventsByCalendarIdByDay(checkedDates.get("targetDay"), checkedDates.get("targetBound"), calendarId);
+        return eventList;
+    }
+
+
 
     /**
      * Updates an existing active event with the given event details.
@@ -79,6 +100,21 @@ public class EventService {
             eventRepository.save(eventOptional.get());
         }
         return eventOptional;
+    }
+
+    private Map<String, OffsetDateTime> checkDay(OffsetDateTime targetDay){
+        Map<String, OffsetDateTime> map = new HashMap<>();
+
+        //cleaned starting Day
+        OffsetDateTime cleanTargetDay = OffsetDateTime.of(targetDay.getYear(), targetDay.getMonthValue(), targetDay.getDayOfMonth(), 00,00,01,00, ZoneOffset.UTC);
+
+        //bound date to check within the range of today
+        OffsetDateTime targetBound = OffsetDateTime.of(targetDay.getYear(), targetDay.getMonthValue(), targetDay.getDayOfMonth(), 23,59,59,00, ZoneOffset.UTC);
+
+        map.put("targetDay", cleanTargetDay);
+        map.put("targetBound", targetBound);
+
+        return map;
     }
 
 
