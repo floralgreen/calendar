@@ -60,6 +60,14 @@ public class EventService {
         return eventRepository.findAllCalendarEventsByCalendarId(calendarId);
     }
 
+    /**
+     * Retrieves a List of events where the starting OffsetDateTime eventStart is within a specified range of 2 dates
+     *
+     * @param calendarId
+     * @param fromDate starting date
+     * @param toDate ending bound
+     * @return
+     */
     public List<Event> findAllEventsByCalendarIdWithinRange(Long calendarId, OffsetDateTime fromDate, OffsetDateTime toDate) {
         List<Event> eventList = eventRepository.findAllCalendarEventsByCalendarIdByDay(fromDate, toDate, calendarId);
         return eventList;

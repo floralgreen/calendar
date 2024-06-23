@@ -70,7 +70,18 @@ public class EventController {
     }
 
     @GetMapping("/allDayEvents/{calendardId}")
-    public ResponseEntity<List<Event>> findAllCalendarEventsWithinRange(@PathVariable Long calendardId, @RequestParam OffsetDateTime fromDate, @RequestParam OffsetDateTime toDate){
+    @Operation(summary = "Find all events for a calendar within a date range", description = "Returns a list of all events associated with the specified calendar ID that fall within the given date range.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of calendar events retrieved"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    public ResponseEntity<List<Event>> findAllCalendarEventsWithinRange(
+            @Parameter(description = "ID of the calendar whose events are to be obtained.", example = "123")
+            @PathVariable Long calendardId,
+            @Parameter(description = "The start date and time of the range.", example = "2023-06-01T00:00:00Z")
+            @RequestParam OffsetDateTime fromDate,
+            @Parameter(description = "The end date and time of the range.", example = "2023-06-30T23:59:59Z")
+            @RequestParam OffsetDateTime toDate){
         List<Event> eventsFound = eventService.findAllEventsByCalendarIdWithinRange(calendardId, fromDate, toDate);
         return ResponseEntity.ok(eventsFound);
     }
