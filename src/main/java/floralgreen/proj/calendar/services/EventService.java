@@ -60,9 +60,8 @@ public class EventService {
         return eventRepository.findAllCalendarEventsByCalendarId(calendarId);
     }
 
-    public List<Event> findAllDayEventsByCalendarId(Long calendarId, OffsetDateTime targetDay) {
-        Map<String, OffsetDateTime> checkedDates = checkDay(targetDay);
-        List<Event> eventList = eventRepository.findAllCalendarEventsByCalendarIdByDay(checkedDates.get("targetDay"), checkedDates.get("targetBound"), calendarId);
+    public List<Event> findAllEventsByCalendarIdWithinRange(Long calendarId, OffsetDateTime fromDate, OffsetDateTime toDate) {
+        List<Event> eventList = eventRepository.findAllCalendarEventsByCalendarIdByDay(fromDate, toDate, calendarId);
         return eventList;
     }
 
@@ -101,23 +100,5 @@ public class EventService {
         }
         return eventOptional;
     }
-
-    private Map<String, OffsetDateTime> checkDay(OffsetDateTime targetDay){
-        Map<String, OffsetDateTime> map = new HashMap<>();
-
-        //cleaned starting Day
-        OffsetDateTime cleanTargetDay = OffsetDateTime.of(targetDay.getYear(), targetDay.getMonthValue(), targetDay.getDayOfMonth(), 00,00,01,00, ZoneOffset.UTC);
-
-        //bound date to check within the range of today
-        OffsetDateTime targetBound = OffsetDateTime.of(targetDay.getYear(), targetDay.getMonthValue(), targetDay.getDayOfMonth(), 23,59,59,00, ZoneOffset.UTC);
-
-        map.put("targetDay", cleanTargetDay);
-        map.put("targetBound", targetBound);
-
-        return map;
-    }
-
-
-
 
 }
