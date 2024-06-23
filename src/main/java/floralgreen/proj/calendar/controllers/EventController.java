@@ -71,7 +71,7 @@ public class EventController {
 
     @GetMapping("/allDayEvents/{calendardId}")
     public ResponseEntity<List<Event>> findAllCalendarEventsWithinRange(@PathVariable Long calendardId, @RequestParam OffsetDateTime fromDate, @RequestParam OffsetDateTime toDate){
-        List<Event> eventsFound = eventService.findAllDayEventsByCalendarId(calendardId, fromDate, toDate);
+        List<Event> eventsFound = eventService.findAllEventsByCalendarIdWithinRange(calendardId, fromDate, toDate);
         return ResponseEntity.ok(eventsFound);
     }
 
