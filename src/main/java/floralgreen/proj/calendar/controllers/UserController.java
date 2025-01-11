@@ -37,14 +37,14 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User found"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<Optional<User>> findActiveUserById(
+    public ResponseEntity<User> findActiveUserById(
             @Parameter(description = "ID of the user to be obtained. Cannot be empty.", example = "123")
             @PathVariable("id") Long id) {
         Optional<User> userOptional = userService.findActiveUserById(id);
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userOptional);
+        return ResponseEntity.ok(userOptional.get());
     }
 
     @GetMapping("/all")
@@ -62,7 +62,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User updated successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<Optional<User>> updateUser(
+    public ResponseEntity<User> updateUser(
             @Parameter(description = "ID of the user to be updated.", example = "123")
             @PathVariable Long id,
             @RequestBody User user) {
@@ -70,7 +70,7 @@ public class UserController {
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userOptional);
+        return ResponseEntity.ok(userOptional.get());
     }
 
     @DeleteMapping("/delete/{id}")
@@ -79,14 +79,14 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<Optional<User>> deleteUser(
+    public ResponseEntity<User> deleteUser(
             @Parameter(description = "ID of the user to be deleted.", example = "123")
             @PathVariable Long id) {
         Optional<User> userOptional = userService.deleteUserById(id);
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userOptional);
+        return ResponseEntity.ok(userOptional.get());
     }
 }
 

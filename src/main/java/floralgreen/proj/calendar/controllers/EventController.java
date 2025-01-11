@@ -38,14 +38,14 @@ public class EventController {
             @ApiResponse(responseCode = "200", description = "Event found"),
             @ApiResponse(responseCode = "404", description = "Event not found")
     })
-    public ResponseEntity<Optional<Event>> findEventById(
+    public ResponseEntity<Event> findEventById(
             @Parameter(description = "ID of the event to be obtained. Cannot be empty.", example = "123")
             @PathVariable("id") Long id) {
         Optional<Event> eventOptional = eventService.findEventById(id);
         if (eventOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(eventOptional);
+        return ResponseEntity.ok(eventOptional.get());
     }
 
     @GetMapping("/all")
@@ -92,7 +92,7 @@ public class EventController {
             @ApiResponse(responseCode = "200", description = "Event updated successfully"),
             @ApiResponse(responseCode = "404", description = "Event not found")
     })
-    public ResponseEntity<Optional<Event>> updateEvent(
+    public ResponseEntity<Event> updateEvent(
             @Parameter(description = "ID of the event to be updated.", example = "123")
             @PathVariable Long id,
             @RequestBody Event event) {
@@ -100,7 +100,7 @@ public class EventController {
         if (eventOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(eventOptional);
+        return ResponseEntity.ok(eventOptional.get());
     }
 
     @DeleteMapping("/delete/{id}")
@@ -109,14 +109,14 @@ public class EventController {
             @ApiResponse(responseCode = "200", description = "Event deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Event not found")
     })
-    public ResponseEntity<Optional<Event>> deleteEvent(
+    public ResponseEntity<Event> deleteEvent(
             @Parameter(description = "ID of the event to be deleted.", example = "123")
             @PathVariable Long id) {
         Optional<Event> eventOptional = eventService.deleteEventById(id);
         if (eventOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(eventOptional);
+        return ResponseEntity.ok(eventOptional.get());
     }
 
 }

@@ -37,14 +37,14 @@ public class CalendarController {
             @ApiResponse(responseCode = "200", description = "Calendar found"),
             @ApiResponse(responseCode = "404", description = "Calendar not found")
     })
-    public ResponseEntity<Optional<Calendar>> findCalendarById(
+    public ResponseEntity<Calendar> findCalendarById(
             @Parameter(description = "ID of the calendar to be obtained. Cannot be empty.", example = "123")
             @PathVariable("id") Long id) {
         Optional<Calendar> calendarOptional = calendarService.findActiveCalendarById(id);
         if (calendarOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(calendarOptional);
+        return ResponseEntity.ok(calendarOptional.get());
     }
 
     @GetMapping("/all")
@@ -74,7 +74,7 @@ public class CalendarController {
             @ApiResponse(responseCode = "200", description = "Calendar updated successfully"),
             @ApiResponse(responseCode = "404", description = "Calendar not found")
     })
-    public ResponseEntity<Optional<Calendar>> updateCalendar(
+    public ResponseEntity<Calendar> updateCalendar(
             @Parameter(description = "ID of the calendar to be updated.", example = "123")
             @PathVariable Long id,
             @RequestBody Calendar calendar) {
@@ -82,7 +82,7 @@ public class CalendarController {
         if (calendarOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(calendarOptional);
+        return ResponseEntity.ok(calendarOptional.get());
     }
 
     @DeleteMapping("/delete/{id}")
@@ -91,14 +91,14 @@ public class CalendarController {
             @ApiResponse(responseCode = "200", description = "Calendar deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Calendar not found")
     })
-    public ResponseEntity<Optional<Calendar>> deleteCalendar(
+    public ResponseEntity<Calendar> deleteCalendar(
             @Parameter(description = "ID of the calendar to be deleted.", example = "123")
             @PathVariable Long id) {
         Optional<Calendar> calendarOptional = calendarService.deleteCalendarById(id);
         if (calendarOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(calendarOptional);
+        return ResponseEntity.ok(calendarOptional.get());
     }
 
 

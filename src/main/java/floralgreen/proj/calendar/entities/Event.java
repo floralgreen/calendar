@@ -1,7 +1,6 @@
 package floralgreen.proj.calendar.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import floralgreen.proj.calendar.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 
